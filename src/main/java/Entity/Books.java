@@ -53,4 +53,8 @@ public class Books {
     public void setCopiesAvailable(int copiesAvailable) {
         this.copiesAvailable = copiesAvailable;
     }
+    @Override
+    public String toString() {
+        return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", copiesAvailable=" + copiesAvailable + "]";
+    }
 }

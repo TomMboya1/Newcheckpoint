@@ -43,11 +43,33 @@ public class BookController {
 
     @PutMapping("/id")
     public ResponseEntity<Book>updateBook(@PathVariable long id,@RequestBody Book book){
-        try{Optional<Book> existi
 
+        Optional<Book> existingBook = bookRepository.findById(id);
+
+        if (existingBook.isPresent()) {
+
+            Book bookToUpdate = existingBook.get();
+            bookToUpdate.setPage(updatedBook.getTitle());
+            bookToUpdate.setAuthor(updatedBook.getAuthor());
+            bookToUpdate.setIsbn(updatedBook.getIsbn());
+            bookToUpdate.setCopiesAvailable(updatedBook.getCopiesAvailable());
+
+
+            bookRepository.save(bookToUpdate);
+
+            return ResponseEntity.ok(bookToUpdate);
+        } else {
+            return ResponseEntity.notFound().build();
         }
+    } catch (Exception e) {
 
+        ResponseEntity<String> body = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error occurred while updating the book: " + e.getMessage());
+        ResponseEntity<String> body1 = body;
+        return body1;
     }
+}
+
 
 
 
